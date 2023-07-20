@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Req } from '@nestjs/common';
+import { BinanceService } from './services/binance/binance.futures.service';
+import { LongShortResponse } from './services/binance';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly binanceService: BinanceService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('longShortRatio')
+  getLongShortRatio(): Promise<LongShortResponse> {
+    return this.binanceService.globalLongShortAccountRatio('4h', 'BTCUSDT');
   }
 }
